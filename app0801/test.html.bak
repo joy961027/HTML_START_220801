@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+</head>
+<body>
+<button onclick="move()">날리기</button>
+</body>
+</html>
+<script>
+//프로그래밍 영역 ... 오타X
+//문서내에 화살표를 생성하여, 등장시키자
+var span = document.createElement("span"); //new0
+var span2 = document.createElement("span"); //new0
+var span3 = document.createElement("span"); //new0
+
+span.innerText="→";
+span2.innerText="→";
+span3.innerText="→";
+
+span.id ="sp";//제어하기 위한 id부여
+span2.id ="sp2";//제어하기 위한 id부여
+span3.id ="sp3";//제어하기 위한 id부여
+
+span.style.position = "absolute";//절대위치로 지정
+span.style.top = 150+"px";
+span.style.left  = 0+"px";
+
+span2.style.position = "absolute";//절대위치로 지정
+span2.style.top = 160+"px";
+span2.style.left  = 0+"px";
+
+span3.style.position = "absolute";//절대위치로 지정
+span3.style.top = 170+"px";
+span3.style.left  = 0+"px";
+document.body.appendChild(span);
+document.body.appendChild(span2);
+document.body.appendChild(span3);
+//js에서의 함수정의
+var x = 0;
+var x2 = 0;
+var x3= 0;
+function move(){ 
+	//문서내에 있는 화살 span의 x축 값을 증가시키자
+	var obj = document.getElementById("sp");
+	var obj2 = document.getElementById("sp2");
+	var obj3 = document.getElementById("sp3");
+	x+=10;
+	x2+=5;
+	x3+=15
+	obj.style.left=x+"px";
+	obj2.style.left=x2+"px";
+	obj3.style.left=x3+"px";
+	
+	setTimeout("move()",100);//1000분의 1초까지 표현가능
+	
+}
+
+
+</script>

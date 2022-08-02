@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>웹사이트 레이아웃</title>
+<style>
+	/*스타일 시트를 적용하는 방법
+	1) 해당 태그에 직접적용하는 방법 - 인라인 방식(단점: 코드 중복이 발생, 장점: 코드량이 많지않으면 편함)
+	2) 임베디드 방식 - style 태그에 명시
+	
+	*/
+button{
+		background : red;
+		font-size:20px;
+}
+
+table {
+	border:10px solid red;
+	background:yellow;
+}
+
+td{
+border:10px solid red;
+}
+
+#p2{
+background:green;
+}
+
+</style>
+</head>
+<body>
+	<table width ="800px" align="center">
+		<tr>
+			<td  align="center">
+				<button>Home</button>
+				<button>Product</button>
+				<button>Cart</button>
+				<button>CS</button>
+			</td>
+		</tr>
+
+		<tr>
+			<td><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+			<p id="p2">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+			</td>
+		</tr>
+
+		<tr>
+			<td>copyright 2022 all reserved 
+					<font style="font-size:35px">사업자번호 : 123-45-67891
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

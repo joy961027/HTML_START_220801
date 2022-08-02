@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+//프로그래밍 영역 ... 오타X
+//문서내에 화살표를 생성하여, 등장시키자
+
+//현실에 존재하는 화살을 여러개 찍어낼 거푸집 역할을 함, Arrow클래스를 정의하자
+class Arrow{
+	
+	constructor(y,str,speed){
+		this.speed = speed;
+		this.y =y;
+		this.x =0;
+		this.str = str;
+		this.span = document.createElement("span"); //new0
+		this.span.innerText=this.str;
+		//this.span.id ="sp";//제어하기 위한 id부여
+		this.span.style.position = "absolute";//절대위치로 지정
+		this.span.style.top = this.y+"px";
+		this.span.style.left  = 0+"px";
+		document.body.appendChild(this.span);
+		
+	}
+	move(){ 
+		
+		//문서내에 있는 화살 span의 x축 값을 증가시키자
+		this.x+=this.speed;
+		this.span.style.left=this.x+"px";
+		setTimeout(()=>{
+			this.move();
+		},100);//1000분의 1초까지 표현가능
+	}
+
+}
+var a1 = new Arrow(150,"♥",10);
+var a2 = new Arrow(200,"♣",20); 
+var a3 = new Arrow(250,"★",5); 
+a1.move();
+a2.move();
+a3.move();
+
+/*//js에서의 함수정의
+	*/
+</script>
