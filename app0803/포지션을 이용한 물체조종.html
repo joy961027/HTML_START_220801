@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>포지션을 이용한 물체조종</title>
+<style>
+body{
+	margin:0px; /*body태그와 그안에 들어있는 자식 요소간 약간의 떨어짐이 있는 마진을 아예없앰*/
+}
+#bt_up{
+	position:absolute;
+	left:47px;
+	top:0px;
+}
+#bt_left{
+	position:absolute;
+	left:0px;
+	top:22px;
+}
+#bt_down{
+	position:absolute;
+	left:39px;
+	top:22px;
+}
+#bt_right{
+	position:absolute;
+	left:90px;
+	top:22px;
+}
+
+#pic{
+	position:absolute;
+	width:100px;
+	left:50px;
+	top:200px;
+}
+#bg{
+	background-image:url(../images/bg0.png);
+	width:1000px;
+	height:700px;
+}
+</style>
+
+<script>
+var x =50;
+var y=200;
+var bgX=0;
+var r=0;
+
+function moveUp(){
+	y=y-10
+	//문서내의 pic이라는 아이디를 가진 요소의 position top 값을 감소시키자
+	move();
+}
+
+function moveDown(){
+	y=y+10
+	//문서내의 pic이라는 아이디를 가진 요소의 position top 값을 증가시키자
+	move();
+}
+
+function moveLeft(){
+	x=x-10
+	//문서내의 pic이라는 아이디를 가진 요소의 position left 값을 감소시키자
+	move();
+}
+
+function moveRight(){
+	x=x+10
+	//문서내의 pic이라는 아이디를 가진 요소의 position left 값을 증가시키자
+	move();
+}
+
+function move(){
+	document.getElementById("pic").style.left=x+"px";
+	document.getElementById("pic").style.top=y+"px";
+}
+
+function moveBg(){
+	bgX = bgX - 5;
+	r+=3;
+	//문서내의 div 내에 있는 배경의 x좌표를 음수값을 계속 누적해 나가자!!
+	document.getElementById("bg").style.backgroundPosition= bgX+"px 0px";
+	
+	document.getElementById("pic").style.transform="rotate("+r+"deg)";
+
+	setTimeout("moveBg()",30); //1000분의 10초 후에  호출
+}
+</script>
+</head>
+<body >
+	<button id="bt_up" onClick="moveUp()">UP</button>
+	<button id="bt_left" onClick="moveLeft()">Left</button>
+	<button id="bt_down" onClick="moveDown()">Down</button>
+	<button id="bt_right" onClick="moveRight()">Right</button>
+	
+	<div id="bg">
+		<!-- 현재 html파일을 기준으로, 이미지를 가져오자-->
+		<img src="../images/mushmom.gif" id="pic">
+	</div>
+</body>
+</html>
+<script>
+moveBg();
+</script>
