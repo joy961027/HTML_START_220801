@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>회원가입 양식</title>
+<style>
+input{
+	border:1px solid gray;
+	background:#f1f1f1;
+}
+</style>
+<script>
+var hobbyCount=0; //취미를 체크할때, 카운트를 누적시킬 전역변수
+								// 이변수값이 0이면 안됨
+//유효성 체크 함수 정의 : db에 직접 넣으면, 너무나 많은 사용자의 검증되지 않은 데이터가 들어갈 수 있고.
+//서버에 큰 부담을 주므로, 서버에 넣기 전에 클라이언트 측에서 미리 검증을 거치는게 좋다.
+function checkValid(){
+	//아이디검증 : 문서내의 user_id의 값이 없을경우 
+
+	//브라우저를 실행하면, 모든 태그마다 1:1 대응되는 DOM이 올라오는데, 이때 이 dom중에 원하는 돔을
+	//접근하기 위해서 document.getElement~~
+	/*
+	var user_id = document.getElementById("user_id"); //text 박스 돔 변수에 받기
+	
+	if(user_id.value.length<1){
+		alert("아이디를 입력해주세요");
+		user_id.focus();//커서 올려놓기
+		return;
+	}
+
+
+	//비밀번호 처리
+	var pass =document.getElementById("pass");
+	if(pass.value.length<8){
+		alert("비밀번호를 8자 이상 입력하세요");
+		pass.focus();
+		return;
+	}
+	var pass2 = document.getElementById("pass2");
+	if(pass.value != pass2.value){
+		alert("비밀번호를 확인해주세요");
+		pass2.focus();
+		return;
+	}
+
+	var user_name = document.getElementById("user_name");
+	if(user_name.value==""){
+		alert("이름을 입력하세요");
+		user_name.focus();
+		return;
+	}
+
+	var mail_id = document.getElementById("mail_id");
+	if(mail_id.value==""){
+		alert("이메일을 입력하세요");
+		mail_id.focus();
+		return;
+	}
+
+	var mail_server = document.getElementById("mail_server");
+	if(mail_id.value=="메일서버 선택"){
+		alert("이메일을 입력하세요");
+		mail_id.focus();
+		return;
+	}
+	//취미를 적어도 하나라도 체크했는지 판단하기
+	var hobbyArray = document.getElementsByName("hobby");
+	hobbyCount=0; //가입하기 버튼을 누를때마다 체크용 변수를 0으로깨끗이 초기화해야 판단이 제대로됨
+	for(var i=0; i < hobbyArray.length; i++){
+		if(hobbyArray[i].checked){
+			hobbyCount++;	
+		}
+	}
+	if(hobbyCount==0){
+		alert("취미를 하나라도 선택해주세요!");
+		return;
+	}
+	*/
+	//조건문 만나지 않은 사용자는 제대로 입력을 한 유저이므로, '가입'보상을 해보자!!
+	//폼양식으로 감싼 요소들을 우리의 톰캣 서버로 전송하자!!
+	var memberForm = document.getElementById("memberForm");
+	memberForm.action = "/member/regist.jsp";//톰켓 서버의 회원가입 처리 jsp를 명시
+	memberForm.method="post";//내용을 봉투에 넣어서 가리고 전송
+	memberForm.submit();//이시점에 서버로 전송이 발생!!
+}
+
+//사용자가 직접 이메일을 입력할 수 있는 텍스트 박스 보이게ㅐ
+function showDirect(){
+	
+	var mail_server =document.getElementById("mail_server");//보이게
+	if(mail_server.value=="direct"){
+		document.getElementById("myserver").style.display="inline";//보이게
+	}else{
+		document.getElementById("myserver").style.display="none";//보이게
+	}
+
+}
+
+
+/*
+이 함수는 문서의 태그가 모두 load되었을때 호출된다!
+js의 이벤트는 click,mouse뿐 아니라 문서가 로드되는것도 하나의 이벤트이다.
+*/
+function init(){
+	var bt_regist = document.getElementById("bt_regist");
+
+	//태그에 직접 이벤트를 부여하는 방식이 아닌, 순수한 자바스크립트를 이용한 이벤트 연결방식
+	bt_regist.addEventListener("click",function(){
+		console.log("나눌럿어");
+		//유효성 체크
+		checkValid();
+	});//버튼과 리스너 연결
+
+	//주민번호 뒷자리에 첫자리값을 입력 완료시점 남자 혹은 여자를 판단하여 라디오 값을 체크하자.
+	var social2 = document.getElementById("social2");
+
+	social2.addEventListener("keyup",function(e){
+		console.log("당신이 입력한 성별 값은", this.value);
+		var gender = document.getElementsByName("gender");
+		if(social2.value.substring(0,1)=="1"){
+			//남자 체크
+			gender[0].checked=true;
+
+		}else{
+			//여자체크
+			gender[1].checked=true;
+			}
+		
+	});
+}
+</script>
+</head>
+<body onLoad="init()">
+	<form id="memberForm">
+		<table width="800px" border ="1px" align="center">
+			<tr>
+				<td align="center" colspan="2">회원가입</td>
+			</tr>
+
+			<tr>
+				<td>ID</td>
+				<td><input type="text" id="user_id" name="user_id"></td>
+			</tr>
+
+			<tr>
+				<td>비밀번호</td>
+				<td><input type="password" maxlength="12" id="pass" name="pass"> * 8~12자 사이 입력가능</td>
+			</tr>
+
+			<tr>
+				<td>비밀번호 확인</td>
+				<td><input type="password" maxlength="12" id="pass2" name="pass2"></td>
+			</tr>
+
+			<tr>
+				<td>이름</td>
+				<td><input type="text" id="user_name" name="user_name"></td>
+			</tr>
+
+			<tr>
+				<td>이메일</td>
+				<td><input type="text" id="mail_id" name="mail_id">@
+						<input type="text" id="myserver" style="display:none" name="myserver">
+						<select id="mail_server" onChange="showDirect()" name="mail_server">
+							<option value="0">메일서버 선택</option>
+							<option value="gmail.com">gmail.com</option>
+							<option value="naver.com">naver.com</option>
+							<option value="daum.net">daum.net</option>
+							<option value="direct">직접입력</option>
+						</select>
+				</td>
+			</tr>
+
+			<tr>
+				<td>핸드폰</td>
+				<td>
+					<select name="tel1">
+						<option value="010">010</option>
+						<option value="016">016</option>
+						<option value="017">017</option>
+						<option value="018">018</option>
+						<option value="019">019</option>
+					</select>-
+					<input type="text" name="tel2">-
+					<input type="text" name="tel3">
+				</td>
+			</tr>
+
+			<tr>
+				<td>주민번호</td>
+				<td>
+					<input type="text" maxlength="6" name="social1">-
+					<input type="text" maxlength="7" id="social2" name="social2">
+				</td>
+			</tr>
+
+
+			<tr>
+				<td>성별</td>
+				<td>
+					<!-- 
+						id, name 공통점, 차이점?
+						id : 유일할 요소를 지정할때
+						name : 중복이 가능한 요소를 지정할때, 이때 중복될경우 내부적으로 돔을 배열에 넣음
+
+					-->
+
+					남<input type="radio" name="gender" value="남">
+					여<input type="radio" name="gender" value="여">
+				</td>
+			</tr>
+
+			<tr>
+				<td>취미</td>
+				<td>
+					운동<input type="checkbox" name="hobby" value="운동">
+					독서<input type="checkbox" name="hobby" value="독서">
+					게임<input type="checkbox"  name="hobby" value="게임">
+					영화<input type="checkbox"  name="hobby" value="영화">
+				</td>
+			</tr>
+
+			<tr>
+				<td align="center" colspan="2">
+					<button type="button" id="bt_regist">가입하기</button>
+					<button id="bt_reset">다시작성</button>
+				</td>
+			</tr>
+
+
+		</table>
+	</form>
+</body>
+</html>

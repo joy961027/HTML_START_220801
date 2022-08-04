@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>레이아웃 실습2</title>
+<style>
+#wrapper{
+	width:600px;
+	height:600px;
+	background:yellow;
+	margin:auto;/*남은 공간을 양쪽으로 배분하여, 물체를 화면 중앙에 둔다*/
+}
+
+#header{
+	width:100%;/*부모까지 확장가능*/
+	height:100px;
+	background:skyblue;
+}
+
+#sidebar{
+	width:100px;
+	height:400px;
+	background:green;
+	float:left
+}
+
+#content{
+	width:500px;
+	height:400px;
+	background:orange;
+	float:left
+}
+
+#footer{
+	width:100%;
+	height:100px;
+	background:purple;
+	float:left;
+}
+/*list 태그를 제어해보자*/
+ul{
+	list-style:none; /*list에 부여된 숫자 또는 마크를 없앤다.*/
+}
+ul li{
+	float:left;
+	margin-left:20px;
+	margin-top:10px;
+	font-size:20px;
+}
+a{
+	text-decoration:none;
+}
+/*a태그에 마우스 올려놓으면*/
+a:hover{
+background:white;
+}
+
+</style>
+</head>
+<body>
+	<div id="wrapper">
+		<div id="header">
+			ul:unorederd list : 순서없는 목록
+			ol: orederd list : 순서있는 목록
+			<ul>
+				<li><a href="#">HOME</a></li>
+				<li><a href="#">Product</a></li>
+				<li><a href="#">Brand</a></li>
+				<li><a href="#">Community</a></li>
+			</ul>
+		</div>
+		<div id="sidebar">사이드바 나올 영역</div>
+		<div id="content">컨텐츠 나올 영역</div>
+		<div id="footer">푸터영역(카피라이트, 사업자정보)</div>
+	</div>
+</body>
+</html>

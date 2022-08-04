@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>체크박스 일괄처리</title>
+<style>
+input{
+	display:block;
+}
+</style>
+<script>
+function checkAll(obj){
+	//문서내의 대표 체크박스의 상태를 조사하자
+	//var king = document.getElementById("king");
+	var arr = document.getElementsByName("ch");
+	console.log("대표체크박스의 상태는",obj.checked);
+	//true 라면 모두의 체크 상태를 true로 동일하게 
+		for(var i=0; i< arr.length; i++){ //배열길이 만큼 반복
+			arr[i].checked=obj.checked;	
+		}
+}
+</script>
+</head>
+<body>
+	<input type="checkbox" onClick="checkAll(this)"  id="king">
+
+	<input type="checkbox" name="ch">
+	<input type="checkbox" name="ch">
+	<input type="checkbox" name="ch">
+	<input type="checkbox" name="ch">
+	<input type="checkbox" name="ch">
+	<input type="checkbox" name="ch">
+	<input type="checkbox" name="ch">
+	<input type="checkbox" name="ch">
+	<input type="checkbox" name="ch">
+	<input type="checkbox" name="ch">
+	<input type="checkbox" name="ch">
+	<input type="checkbox" name="ch">
+	<input type="checkbox" name="ch">
+	<input type="checkbox" name="ch">
+</body>
+</html>
