@@ -68,59 +68,70 @@
 	Class.forName("oracle.jdbc.OracleDriver");
 	
 	Connection con = DriverManager.getConnection(url,user,password);
+	//트랜잭션은 con객체로 제어하는 것임..
+	//데이터베이스의 종류가 여러가지 임과 상관엇이 con객체는 기본적으로 autocommit(true)이 적용되어있음
+	
 	if(con==null){
 		out.print("접속실패<br>");
 	}else{
 		out.print("접속성공<br>");
 	}
+	con.setAutoCommit(false);//자동 커밋 비활성화
 	
-	String sql = "insert into member(member_id,user_id,pass,user_name,email,tel1,tel2,tel3,social1,social2,gender)";
-	sql+=" values(seq_member.nextval,?,?,?,?,?,?,?,?,?,?)";
-	//PreparedStatement는 인터페이스 이므로, new로 직접 생성 할 수없다
-	//그럼 언제 생성되나?? Connection객체로 부터 인스턴스를 얻어올수 있다.
-	//즉 접속이 성공되면 얻어 올수 있다
-	PreparedStatement pstmt = con.prepareStatement(sql);
-	//바인드 변수값 할당하기 
-	pstmt.setString(1, user_id);
-	pstmt.setString(2, pass);
-	pstmt.setString(3, user_name);
-	pstmt.setString(4, email);
-	pstmt.setString(5, tel1);
-	pstmt.setString(6, tel2);
-	pstmt.setString(7, tel3);
-	pstmt.setString(8, social1);
-	pstmt.setString(9, social2);
-	pstmt.setString(10, gender);
+	try{
+		String sql = "insert into member(member_id,user_id,pass,user_name,email,tel1,tel2,tel3,social1,social2,gender)";
+		sql+=" values(seq_member.nextval,?,?,?,?,?,?,?,?,?,?)";
+		//PreparedStatement는 인터페이스 이므로, new로 직접 생성 할 수없다
+		//그럼 언제 생성되나?? Connection객체로 부터 인스턴스를 얻어올수 있다.
+		//즉 접속이 성공되면 얻어 올수 있다
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		//바인드 변수값 할당하기 
+		pstmt.setString(1, user_id);
+		pstmt.setString(2, pass);
+		pstmt.setString(3, user_name);
+		pstmt.setString(4, email);
+		pstmt.setString(5, tel1);
+		pstmt.setString(6, tel2);
+		pstmt.setString(7, tel3);
+		pstmt.setString(8, social1);
+		pstmt.setString(9, social2);
+		pstmt.setString(10, gender);
 
-	int result = pstmt.executeUpdate(); //DML수행 메서드
-	if(result==0){
-		out.print("입력실패");
-	}else{
-		out.print("입력성공");
+		int result = pstmt.executeUpdate(); //DML수행 메서드
+		if(result==0){
+			out.print("입력실패");
+		}else{
+			out.print("입력성공");
+		}
+
+		//member테이블에 레코드가 입력된 시점에, 얼른 pk인 member_id를 가져와야함....
+		//select max문은 너무 위험하다? dbms는 다중사용자 서버이므로 동시사용시 데이터에 일관성이 깨질수 잇음..
+		int member_id=0;
+		sql = "select seq_member.currval as member_id from dual";
+		PreparedStatement pstmt2=con.prepareStatement(sql);
+		ResultSet rs = pstmt2.executeQuery();//select문 수행!
+		if(rs.next()){//next호출시 트루라면,즉 레코드가 존재한다면..
+			member_id = rs.getInt("member_id");
+		}	
+
+		PreparedStatement pstmt3=null;
+		//hobby테이블에 취미 넣기 
+		for(int i=0; i<hobby.length; i++){
+			sql="insert into hobby(hobby_id,member_id,hobby_name)";
+			sql+=" values(seq_hobby.nextval,?,?)";
+			//쿼리문 하나당 preaprestatment 한개씩 생성
+			 pstmt3=con.prepareStatement(sql);
+			 pstmt3.setInt(1,member_id);
+			 pstmt3.setString(2,hobby[i]);
+			 pstmt3.executeUpdate();
+		}
+		con.commit();
+	}catch(SQLException e){
+		//어떤 이유에서건 에러가 발생함...
+		con.rollback();//기존에 수행했던 모든DML은 처음부터 없었던 것으로 돌려 놓아라!!
+	}finally{
+		con.setAutoCommit(true);
 	}
-
-	//member테이블에 레코드가 입력된 시점에, 얼른 pk인 member_id를 가져와야함....
-	//select max문은 너무 위험하다? dbms는 다중사용자 서버이므로 동시사용시 데이터에 일관성이 깨질수 잇음..
-	int member_id=0;
-	sql = "select seq_member.currval as member_id from dual";
-	PreparedStatement pstmt2=con.prepareStatement(sql);
-	ResultSet rs = pstmt2.executeQuery();//select문 수행!
-	if(rs.next()){//next호출시 트루라면,즉 레코드가 존재한다면..
-		member_id = rs.getInt("member_id");
-	}	
-
-	PreparedStatement pstmt3=null;
-	//hobby테이블에 취미 넣기 
-	for(int i=0; i<hobby.length; i++){
-		sql="insert into hobby(hobby_id,member_id,hobby_name)";
-		sql+=" values(seq_hobby.nextval,?,?)";
-		//쿼리문 하나당 preaprestatment 한개씩 생성
-		 pstmt3=con.prepareStatement(sql);
-		 pstmt3.setInt(1,member_id);
-		 pstmt3.setString(2,hobby[i]);
-		 pstmt3.executeUpdate();
-	}
-
 
 
 

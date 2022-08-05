@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>이미지 등록폼</title>
+<style>
+/*selector*/
+textarea{
+	width:99%;
+	height:200px;
+}
+</style>
+<script>
+function getList(){
+	//등록된 사진의 목록을 조회하자
+	location.href="/list.jsp";
+}
+
+
+function checkValid(){
+	var title = document.querySelector("input[name='title']");
+	var spot = document.querySelector("input[name='spot']");
+	var detail = document.querySelector("textarea[name=detail]");
+	var myfile = document.querySelector("input[name='myfile']");
+
+	if(title.value.length<1){
+		alert("제목을 입력하세요!");
+		title.focus();
+		return;
+	}else if(spot.value.length<1){
+		alert("장소를 입력하세요!");
+		spot.focus();
+		return;
+	}else if(detail.value.length<1){
+		alert("설명을 입력하세요!");
+		detail.focus();
+		return;
+	}else if(myfile.value.length<1){
+		alert("사진을 등록해주세요!");
+		return;
+	}else{
+		//서버에 따른 등록보상
+		var frm = document.querySelector("form");
+		frm.action="/save.jsp" //이 업로드 요청을 받을 서버상의 jsp주소
+		frm.method="post" //바이너리 파일때문에 용량이 크므로 post방식으로 전송해야한다.
+		frm.submit();//서버에 전송하는 시점
+	}
+
+}
+
+window.addEventListener("load",function(){
+	var bt = document.querySelector("#bt");
+	bt.addEventListener("click", function(){
+		checkValid();
+	});
+});
+//
+</script>
+</head>
+<body>
+	<form enctype="multipart/form-data" >
+		<table width="600px" border="1px" align="center">
+			<tr>
+				<td align="center" colspan="2">관광지 등록</td>
+			</tr>
+			<tr>
+				<td>제목</td>
+				<td><input type="text" name="title"></td>
+			</tr>
+			<tr>
+				<td>장소</td>
+				<td><input type="text" name="spot"></td>
+			</tr>
+
+			<tr>
+				<td>설명</td>
+				<td><textarea name="detail"></textarea></td>
+			</tr>
+
+			<tr>
+				<td>사진</td>
+				<td><input type="file" name="myfile"></td>
+			</tr>
+
+			<tr>
+				<td colspan="2" align="center">
+					<input type="button" value="등록" id="bt">
+					<input type="button" value="목록" onClick="getList()">
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>	
+</html>

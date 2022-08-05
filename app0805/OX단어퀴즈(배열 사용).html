@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>OX단어퀴즈</title>
+<style>
+#wrapper{
+	width:400px;
+	height:600px;
+	margin:auto;/*가운데로 정렬하되 좌우 마진은 알아서 계산*/
+	background:yellow;
+}
+
+#word-area{
+	width:100%;
+	height:200px;
+	background:skyblue;
+	font-size:100px;
+	text-align:center;
+}
+
+#input-area{
+	width:100%;
+	height:100px;
+	background:red;
+}
+
+#input-area input{
+	border: 0px;
+	width:99%;
+	height:100%;
+	background:#f3f3f3;
+	font-size:70px;
+}
+
+#feedback-area{
+	width:100%;
+	height:200px;
+	background:blue;
+	font-size:180px;
+	text-align:center;
+}
+
+#score-area{
+	width:100%;
+	height:100px;
+	font-size:85px;
+	text-align:center;
+}
+
+</style>
+<script>
+//자바 스크립트의 built in object(내장객체) 중 하나인 배열을 생성한다!
+var word =[
+["마우스","갈매기","기러기","토마토","역삼역","메로나","디지털","장마","폭염","내일"],
+["고진감래","아스팔트","대한민국","카페모카","크레용","팝콘","애국가","애리조나","빨래","뾰루지"],
+["설상가상","꽃가루","캐릭터","닭고기","칡즙","붉은색","슭곰발","뒤뚱뒤뚱","껑충껑충","빨간색"]
+];
+var index=-1;//배열을 접근하기 위한 변수
+var level=0; //게임에 레벨을 결정짓는 변수 (2차원 배열의 index)
+var score=0; //게임이 진행되는 동안 그 값이 계속 유지되어야 하므로 전역변수
+
+
+//게임에 등장할 단어출력
+function showText(){
+		index++;
+		if(index==10){
+			index=0;
+			level++;
+		}
+		var wordArea = document.getElementById("word-area");
+		wordArea.innerText=word[level][index];
+}
+
+function showFeedback(str){
+	var feedbackArea = document.getElementById("feedback-area");
+	feedbackArea.innerText=str;
+	//o일때만 점수 증가
+	if(str=="O" && level==0 ){
+		score+=10;
+	}else if(str=="O" && level==1 ){
+		score+=20;
+	}else if(str=="O" && level==2 ){
+		score+=30;
+	}
+	var scoreArea=document.getElementById("score-area");
+	scoreArea.innerText = score+"점";
+	
+}
+
+
+
+function init(){
+	// 프로그램이 가동됨과 동시에 배열에 첫번째 단어가 출력되게하자
+	var wordArea = document.getElementById("word-area");
+	showText();
+
+	var inputBox =document.querySelector("#input-area input"); //css의 선택자를 사용하여 dom을 접근하는 방법	
+	inputBox.focus();//커서 올리기
+	inputBox.addEventListener("keyup", function(e){
+		if(e.keyCode==13){//엔터치면
+			//입력한단어 얻기
+			
+			if(inputBox.value==  document.getElementById("word-area").innerText){
+				showFeedback("O");
+				showText();
+			}else{
+				showFeedback("X");
+			}
+			inputBox.value="";//lenght를 0으로
+		}
+	});
+}
+	// 텍스트 박스에 입력 이벤트 구현하기
+
+</script>
+</head>
+<body onLoad="init()">
+	<div id="wrapper">
+		<div id="word-area"></div>
+		<div id="input-area">
+			<input type="text" placeholder="여기에 입력" >
+		</div>
+		<div id="feedback-area">X</div>
+		<div id="score-area">0점</div>
+	</div>
+</body>
+</html>
