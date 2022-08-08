@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>마블영화정보</title>
+<style>
+/*선택자의 중에 class도 있다. class의 주 용도 자주 사용되는 즉 재사용 가느한 스타일에 적용*/
+#wrapper {
+	width:800px;
+	height:700px;
+	margin:auto;
+	background:yellow;
+	overflow:hidden; /*자식이 float되었을때 부모의 영역에 overflow:hidden을 줘야함*/
+}
+#photo-area{
+	width:400px;
+	height:600px;
+	background:green;
+	float:left;
+}
+#content-area{
+	width:400px;
+	height:600px;
+	background:pink;
+	float:left;
+	font-size:30px;
+}
+#thumb-area{
+	width:100%;
+	height:100px;
+	background:gray;
+	float:left;
+}
+#bt_prev{
+	float:left;
+	width:50px;
+	height:100px;
+}
+
+#bt_next{
+	float:right;
+	width:50px;
+	height:100px;
+}
+#box{
+	float:left;
+	width:700px;
+	height:100px;
+	background:orange;
+	position:relative;
+}
+/*20개의 이미지를 다보열주수 없기 때문에 10개를 넘어가는 영역을 가리기 위한 div*/
+#mask{
+	
+}
+
+</style>
+
+<script src="./data.json"></script>
+<script>
+var wrapper;
+var photoArea;
+var contentArea;
+var thumbArea;
+var movieImg; //좌측에 보여질 영화포스터
+var box;
+//10개의 썸네일 이미지를 출력한다.(이미지 1개당 65+5)
+function showThumbList(){
+	for(var i=0; i<movies.marvel.length;i++){
+		var thumbImg = document.createElement("img");
+		thumbImg.src = movies.marvel[i].url;
+		thumbImg.style.width=65+"px";
+		thumbImg.style.margin=2.5+"px";
+		box.appendChild(thumbImg);
+	}
+}
+//사진을 동적으로 생성하여, 좌측 div에 보여주기
+function showImg(obj,path){//이미지돔을 메개변수로받아 src를 교체함
+	obj.src = path;
+}
+
+function showContent(title,year,budget,gross){
+	var tag="제목 : "+title +"<br>";
+	tag += "개봉연도: "+year +"<br>";
+	tag += "예산 : "+budget +"<br>";
+	tag += "총수익 : "+gross +"<br>";
+	contentArea.innerHTML=tag;
+	
+}
+
+//문서가 로드되면
+addEventListener("load",function(){
+	wrapper=document.getElementById("wrapper");
+	photoArea=document.getElementById("photo-area");
+	contentArea=document.getElementById("content-area");
+	thumbArea=document.getElementById("thumb-area");
+	box = document.getElementById("box");
+	movieImg = document.createElement("img");//img돔 생성
+	photoArea.appendChild(movieImg);
+	movieImg.style.width=400+"px";
+	movieImg.style.height=600+"px";
+	showImg(movieImg, movies.marvel[0].url);
+	showContent(movies.marvel[0].title, movies.marvel[0].release_year
+	, movies.marvel[0].budget, movies.marvel[0].gross);
+	showThumbList();
+
+});
+
+</script>
+</head>
+<body>
+	<div id="wrapper">
+		<div id="photo-area"></div>
+		<div id="content-area"></div>
+		<div id="thumb-area">
+			<button id="bt_prev">이전</button>
+			<div id="mask">
+				<div id="box"></div>
+			</div>
+			<button id="bt_next">다음</button>
+		</div>
+	</div>
+</body>
+</html>
