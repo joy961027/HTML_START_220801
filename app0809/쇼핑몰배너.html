@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>쇼핑몰배너</title>
+<style>
+#mask{
+	position:relative;
+	width:500px;
+	height:100px;
+	background:yellow;
+	margin:auto;
+	overflow:hidden;
+	border:1px solid red;
+}
+</style>
+<script src="./Product.js"></script>
+<script src="./data.json"></script>
+<script>
+var productArr=[]; //new Array
+var flag=true;
+//프로그램이 가동 되고 있는 동안 무한루프로 객체의move함수를 호출할 영역
+function auto(){
+	if(flag){
+		for(var i=0; i<7; i++){
+			productArr[i].x-=1;
+			productArr[i].move();
+		}
+	}
+	setTimeout("auto()",10); //1000분의 10초뒤에 호출
+}
+
+function init(){
+	for(var i=0; i<7 ; i++){
+		var mask = document.getElementById("mask");
+		var arr = movies.marvel; //영화들 배열
+		var path = arr[i].url;
+		var width =90;
+		var x= (width+5)*i;
+
+		productArr[i]= new Product(mask,path,width,90,x,5);
+	}
+}
+
+window.addEventListener("load",function(){
+	init();
+	auto();
+});
+</script>
+</head>
+<body>
+	<div id="mask">
+	</div>
+</body>
+</html>
