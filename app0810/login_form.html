@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style>
+      #wrapper {
+        width: 400px;
+        height: 200px;
+        border: 5px solid cyan;
+        margin: auto;
+      }
+
+      input {
+        width: 95%;
+        height: 45px;
+        background: #d5d5d5;
+        font-size: 24px;
+      }
+
+      div {
+        margin-bottom: 5px;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      function checkValid() {
+        var userId = document.getElementById("user_id").value;
+        var pass = document.getElementById("pass").value;
+        if (userId == "") {
+          alert("아이디를 입력해주세요");
+          return;
+        } else if (pass == "") {
+          alert("비밀번호를 입력해주세요");
+          return;
+        }
+
+        $("form").attr({
+          action: "/member/login",
+          method: "post",
+        });
+        $("form").submit();
+      }
+      $(document).ready(function () {
+        $("#test").animate({
+          left: "0px",
+        });
+
+        $("button").click(function () {
+          checkValid();
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <form method="get" action="http://naver.com">
+      <div id="wrapper">
+        <div style="position: relative; left: -400px" id="test">
+          <input
+            type="text"
+            placeholder="input your id..."
+            name="user_id"
+            id="user_id"
+          />
+        </div>
+        <div>
+          <input
+            type="password"
+            placeholder="input your password"
+            name="pass"
+            id="pass"
+          />
+        </div>
+      </div>
+    </form>
+    <div style="text-align: center">
+      <!-- html5에서 제공되는 버튼 요소는 내부적으로 자동 submit 처리 되있음 특히 form 태그로 감쌌을때 개발자가 submit() 호출하지 않아도 자동 전송
+        방지 방법 1. js에서 block 시키키 onSubmit="적절한 속성" 2. 버튼요소를 form태그 밖으로 내보내기-->
+      <button>로그인</button>
+    </div>
+  </body>
+</html>
